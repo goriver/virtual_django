@@ -130,19 +130,6 @@ def wordcloud(request):
     }
     return render(request, 'blog/wordcloud.html', context)
 
-# def am(request):
-#     date = Post.objects.filter(published_date__isnull=False).order_by('-created_date') 
-#     context = {
-#         "date":date,
-#     }
-#     return render(request, 'blog/AM.html')
-
-# def pm(request):
-#     date = Post.objects.filter(published_date__isnull=False).order_by('-created_date') 
-#     context = {
-#         "date":date,
-#     }
-#     return render(request, 'blog/PM.html')
 
 def search(request):
     return render(request, 'blog/search.html')
@@ -219,7 +206,7 @@ def moreinfo_out(request):
     )
     try:
         if request.POST['publish'] == 'True':
-            post.publish()
+            post.register()
     except MultiValueDictKeyError:
         pass
 
