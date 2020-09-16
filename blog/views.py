@@ -217,6 +217,12 @@ def moreinfo_out(request):
             email=email,
             content=content,
     )
+    try:
+        if request.POST['publish'] == 'True':
+            post.publish()
+    except MultiValueDictKeyError:
+        pass
+
 
 
     email = request.GET.get('email')
