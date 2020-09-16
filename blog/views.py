@@ -9,8 +9,14 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
 
 # crawling code import
+from selenium import webdriver
 import requests
 from bs4 import BeautifulSoup
+import sys
+from wordcloud import WordCloud
+
+# wordcloud img
+from PIL import Image
 
 # mailing code import
 from blog.mailing import EmailHTMLContent, EmailSender
@@ -19,6 +25,34 @@ from string import Template
 
 
 def post_list(request):
+    req = requests.get('https://finance.naver.com/sise/lastsearch2.nhn')
+    html = req.text
+
+    status = req.status_code
+    if status == 200:
+        print('health')
+    soup = BeautifulSoup(html, 'html.parser')
+
+    name = soup.select('td > a.tltle ')
+    stock_comp = []
+    for na in name:
+        stock_comp.append(na.text)
+    count = soup.select('td:nth-child(3).number')
+    cn_list = []
+
+    for i in range(len(name)):
+        temp = float(count[i].text.replace('%', ''))*100
+        cn_list.append(int(temp))
+
+    keyword = {}
+    for i in range(len(cn_list)):
+        keyword[stock_comp[i]] = cn_list[i]
+
+    wc = WordCloud(font_path = 'C:\\Windows\\Fonts\\MALGUNSL.TTF', \
+                background_color="white").generate_from_frequencies(keyword)
+    im = wc
+    im.to_file('C:/Users/A0501660/djangogirls/djangogirls/django/static/bootstrap/img/wordcloud.jpg')
+
     posts = Post.objects.filter(published_date__isnull=False).order_by('-created_date')  # 수정된 부분
     context = {
         'posts': posts,
@@ -95,6 +129,20 @@ def wordcloud(request):
         'defalut':False
     }
     return render(request, 'blog/wordcloud.html', context)
+
+# def am(request):
+#     date = Post.objects.filter(published_date__isnull=False).order_by('-created_date') 
+#     context = {
+#         "date":date,
+#     }
+#     return render(request, 'blog/AM.html')
+
+# def pm(request):
+#     date = Post.objects.filter(published_date__isnull=False).order_by('-created_date') 
+#     context = {
+#         "date":date,
+#     }
+#     return render(request, 'blog/PM.html')
 
 def search(request):
     return render(request, 'blog/search.html')

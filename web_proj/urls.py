@@ -19,7 +19,7 @@ from blog.views import post_list
 from django.conf.urls import url
 from django.urls import path
 from django.contrib.auth import views
-from blog.views import post_list, post_detail, post_add, post_delete, post_publish, graph, wordcloud, search, search_result, moreinfo, moreinfo_out  # post_detail 뷰를 불러오기
+from blog.views import post_list, post_detail, post_add, post_delete, post_publish, graph, wordcloud, search, search_result, moreinfo, moreinfo_out # post_detail 뷰를 불러오기
 from django.urls import path
 
 
@@ -36,7 +36,8 @@ urlpatterns = [
     url(r'^post/wordcloud/', wordcloud, name="wordcloud"),
     url(r'^post/moreinfo/', moreinfo, name="moreinfo"),
     url(r'^post/moreinfo_out/', moreinfo_out, name="moreinfo_out"),
-    
+    # url(r'^post/wordcloud/am', am, name="am"),
+    # url(r'^post/wordcloud/pm', pm, name="pm"),
     # url(r'^post/search', Mynews.as_view(), name='main'), # as_view()함수는 클래스의 인스턴스를 생성하고, 인스턴스의 dispatch()메소드를 호출
     
 ]
