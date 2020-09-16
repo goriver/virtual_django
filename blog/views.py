@@ -213,6 +213,12 @@ def moreinfo(request):
 
 def moreinfo_out(request):
 
+    post = MoreData.objects.create(
+            email=email,
+            content=content,
+    )
+
+
     email = request.GET.get('email')
     content = request.GET.get('content')
     publish = request.GET.get('publish')
