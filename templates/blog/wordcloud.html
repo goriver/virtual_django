@@ -84,47 +84,39 @@
                 </div>
             </div>
         </header>
+        <!-- Set your background image for this header on the line below. -->
+       
         <!-- Page Content -->
         <div class="container">
         <!--nav bar 영역-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">TOP 6</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">SK</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">LG</a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="#">KT</a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="#">KAKAO</a>
-            </li>
-             <li class="nav-item">
-                <a class="nav-link" href="#">SAMSUNG</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">NAVER</a>
-            </li>
-            
+    
+        <h1>TOP 6</h1>
+        <br>
+
+        <!-- Example single danger button -->
+        <div class="btn-group">
+            <span class="badge badge-pill badge-light">AM</span>
+            <button type="button" onclick="location.href='sk_am'" class="btn btn-outline-primary">SK</button>
+            <button type="button" onclick="location.href='lg_am'" class="btn btn-outline-secondary">LG</button>
+            <button type="button" onclick="location.href='kt_am'" class="btn btn-outline-success">KT</button>
+            <button type="button" onclick="location.href='kakao_am'" class="btn btn-outline-info">KAKAO</button>
+            <button type="button" onclick="location.href='samsung_am'" class="btn btn-outline-warning">SAMSUNG</button>
+            <button type="button" onclick="location.href='naver_am'" class="btn btn-outline-danger">NAVER</button>
         </div>
-        </nav>
-
-
-
+        <div class="btn-group">
+            <span class="badge badge-pill badge-light">PM</span>
+            <button type="button" onclick="location.href='sk_pm'" class="btn btn-outline-primary">SK</button>
+            <button type="button" onclick="location.href='lg_pm'" class="btn btn-outline-secondary">LG</button>
+            <button type="button" onclick="location.href='kt_pm'" class="btn btn-outline-success">KT</button>
+            <button type="button" onclick="location.href='kakao_pm'" class="btn btn-outline-info">KAKAO</button>
+            <button type="button" onclick="location.href='samsung_pm'" class="btn btn-outline-warning">SAMSUNG</button>
+            <button type="button" onclick="location.href='naver_pm'" class="btn btn-outline-danger">NAVER</button>
+        </div>
         </div>
 
-
-
+        <!--여기까지 container-->
+        {% block content %}
+        {% endblock %}
 
         <!-- Footer -->
         <footer>

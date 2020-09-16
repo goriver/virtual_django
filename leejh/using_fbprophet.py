@@ -6,9 +6,9 @@ from fbprophet import Prophet
 import matplotlib.pyplot as plt
 import plotly
 import plotly.express as px
-import plotly.graph_objects as go
-import plotly.io as pio
-from plotly.subplots import make_subplots
+# import plotly.graph_objects as go
+# import plotly.io as pio
+# from plotly.subplots import make_subplots
 
 
 def make_train_data(index_code, want_date):

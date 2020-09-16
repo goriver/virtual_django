@@ -115,20 +115,7 @@ def post_publish(request, pk):
     return redirect('post_detail', pk=pk)
 
 def graph(request):
-    # posts = Post.objects.filter(published_date__isnull=False).order_by('-created_date')  # 수정된 부분
-    # context = {
-    #     'posts': posts,
-    # }
-    # return render(request, 'blog/graph3.html', context)
     return render(request, 'blog/graph3.html')
-
-def wordcloud(request):
-    posts = Post.objects.filter(published_date__isnull=False).order_by('-created_date')  # 수정된 부분
-    context = {
-        'posts': posts,
-        'defalut':False
-    }
-    return render(request, 'blog/wordcloud.html', context)
 
 
 def search(request):
@@ -243,7 +230,38 @@ def moreinfo_out(request):
     emailSender.send_message(emailHTMLContent, from_email_address, to_email_address)
 
     return render(request, 'blog/moreinfo_out.html')
+def wordcloud(request):
+    posts = Post.objects.filter(published_date__isnull=False).order_by('-created_date')  # 수정된 부분
+    context = {
+        'posts': posts,
+        'defalut':False
+    }
+    return render(request, 'blog/wordcloud.html', context)
 
 
 
-
+def sk_am(request):
+    print("hello")
+    return render(request, 'blog/real_time_sk_a.html')
+def sk_pm(request):
+    return render(request, 'blog/real_time_sk_b.html')
+def kt_am(request):
+    return render(request, 'blog/real_time_kt_a.html')
+def kt_pm(request):
+    return render(request, 'blog/real_time_kt_b.html')
+def lg_am(request):
+    return render(request, 'blog/real_time_lg_a.html')
+def lg_pm(request):
+    return render(request, 'blog/real_time_lg_b.html')
+def kakao_am(request):
+    return render(request, 'blog/real_time_kakao_a.html')
+def kakao_pm(request):
+    return render(request, 'blog/real_time_kakao_b.html')
+def samsung_am(request):
+    return render(request, 'blog/real_time_samsung_a.html')
+def samsung_pm(request):
+    return render(request, 'blog/real_time_samsung_b.html')
+def naver_am(request):
+    return render(request, 'blog/real_time_naver_a.html')
+def naver_pm(request):
+    return render(request, 'blog/real_time_naver_b.html')

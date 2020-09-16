@@ -1,6 +1,14 @@
 import using_fbprophet 
+from fbprophet import Prophet
 import datetime
 import pandas as pd
+import plotly
+import plotly.express as px
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
+import plotly.io as pio
+from plotly.subplots import make_subplots
+
 # 매일 저녁에 서버 다운 or 점검 시간에 수행
 
 
@@ -17,8 +25,8 @@ if __name__ == "__main__":
     date = int(date)
     pd.set_option('mode.chained_assignment',  None)
     # using_fbprophet.
-    for i in corporation:
-        temp, what_day = using_fbprophet.make_train_data(i, date)
+    for index_code in corporation:
+        temp, what_day = using_fbprophet.make_train_data(index_code, date)
 
         df = pd.DataFrame(columns=['ds', 'y'])
 
@@ -44,16 +52,18 @@ if __name__ == "__main__":
         fig.add_trace(go.Scatter(x=am_pred['ds'],y=am_pred['yhat'],
                     mode='lines+markers', name='실제값'))
         fig.update_layout(title='<b>해당 요일 오전의 예측 주가</b>')
-        pio.write_html(fig, "C:/Users/A0501660/djangogirls/djangogirls/django/templates/blog/leejh/AM_{}.html".format(index_code), config=None, auto_play=True, include_plotlyjs=True, include_mathjax=False, post_script=None, full_html=True, animation_opts=None, validate=True, default_width='100%', default_height='100%', auto_open=False)
-
-
+        pio.write_html(fig, "Path_AM_{}.html".format(i))
 
         pm_pred = m.predict(pm)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=pm_pred['ds'],y=pm_pred['yhat'],
                     mode='lines+markers', name='실제값'))
         fig.update_layout(title='<b>해당 요일 오후의 예측 주가</b>')
-        pio.write_html(fig, "C:/Users/A0501660/djangogirls/djangogirls/django/templates/blog/leejh/PM_{}.html".format(index_code), config=None, auto_play=True, include_plotlyjs=True, include_mathjax=False, post_script=None, full_html=True, animation_opts=None, validate=True, default_width='100%', default_height='100%', auto_open=False)
+
+
+
+        
+        pio.write_html(fig, "Path_PM_{}.html".format(i))
 
 
 
