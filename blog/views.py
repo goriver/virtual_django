@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.contrib.auth import get_user_model
 from django.utils.datastructures import MultiValueDictKeyError
 from django.contrib.auth.decorators import login_required
+from django.utils.safestring import SafeString
 
 # crawling code import
 from selenium import webdriver
@@ -22,6 +23,10 @@ from PIL import Image
 from blog.mailing import EmailHTMLContent, EmailSender
 from string import Template
 
+# leejh
+import blog.fbprophet_main as fbprophet_main
+
+#jo
 
 
 def post_list(request):
@@ -51,7 +56,7 @@ def post_list(request):
     wc = WordCloud(font_path = 'C:\\Windows\\Fonts\\MALGUNSL.TTF', \
                 background_color="white").generate_from_frequencies(keyword)
     im = wc
-    im.to_file('C:/Users/A0501660/djangogirls/djangogirls/django/static/bootstrap/img/wordcloud.jpg')
+    im.to_file('static/bootstrap/img/wordcloud.jpg')
 
     posts = Post.objects.filter(published_date__isnull=False).order_by('-created_date')  # 수정된 부분
     context = {
@@ -187,22 +192,25 @@ def moreinfo(request):
 
 def moreinfo_out(request):
 
-    post = MoreData.objects.create(
-            email=email,
-            content=content,
-    )
-    try:
-        if request.POST['publish'] == 'True':
-            post.register()
-    except MultiValueDictKeyError:
-        pass
-
-
+    # post = MoreData.objects.create(
+    #         email=email,
+    #         content=content,
+    # )
+    # try:
+    #     if request.POST['publish'] == 'True':
+    #         post.register()
+    # except MultiValueDictKeyError:
+    #     pass
 
     email = request.GET.get('email')
     content = request.GET.get('content')
-    publish = request.GET.get('publish')
+    published = request.GET.get('published')
     print(email)
+    print(content)
+    conv_content = conv_stock(content)
+    print(conv_content)
+    MoreData(email=email, content=content, published=conv_content).save()
+    
     # code
     str_host = 'smtp.gmail.com'
     num_port = 587
@@ -242,26 +250,103 @@ def wordcloud(request):
 
 def sk_am(request):
     print("hello")
-    return render(request, 'blog/real_time_sk_a.html')
+    am , pm = fbprophet_main.get_json()
+    print(am, pm)
+    print(am[0])
+    context = {
+        'day': SafeString(am),
+        'corp':'sk',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def sk_pm(request):
-    return render(request, 'blog/real_time_sk_b.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'sk',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
+
 def kt_am(request):
-    return render(request, 'blog/real_time_kt_a.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(am),
+        'corp':'kt',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def kt_pm(request):
-    return render(request, 'blog/real_time_kt_b.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'kt'
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def lg_am(request):
-    return render(request, 'blog/real_time_lg_a.html')
+    am , pm = fbprophet_main.get_json()
+    print(am[0])
+    context = {
+        'day': SafeString(am),
+        'corp':'lg',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def lg_pm(request):
-    return render(request, 'blog/real_time_lg_b.html')
+    am , pm =fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'lg',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def kakao_am(request):
-    return render(request, 'blog/real_time_kakao_a.html')
+    am , pm =fbprophet_main.get_json()
+    context = {
+        'day': am,
+        'corp':'kakao',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def kakao_pm(request):
-    return render(request, 'blog/real_time_kakao_b.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'kakao',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def samsung_am(request):
-    return render(request, 'blog/real_time_samsung_a.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(am),
+        'corp':'samsung',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def samsung_pm(request):
-    return render(request, 'blog/real_time_samsung_b.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'samsung',
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def naver_am(request):
-    return render(request, 'blog/real_time_naver_a.html')
+    am , pm =fbprophet_main.get_json()
+    context = {
+        'day': SafeString(am),
+        'corp':'naver'
+    }
+    return render(request, 'blog/chart_realtime.html', context)
 def naver_pm(request):
-    return render(request, 'blog/real_time_naver_b.html')
+    am , pm = fbprophet_main.get_json()
+    context = {
+        'day': SafeString(pm),
+        'corp':'naver'
+    }
+    return render(request, 'blog/chart_realtime.html', context)
+
+def conv_stock(stock_name):
+    content = stock_name
+    url = 'https://search.daum.net/search?w=tot&DA=YZR&t__nil_searchbox=btn&sug=&sugo=&sq=&o=&q={0}'.format(content)
+    html = requests.get(url).text.strip()
+    soup = BeautifulSoup(html, 'html5lib')
+    stock_num1 = soup.find("span", {"class":"txt_sub"}).get_text()
+    stock_num = stock_num1[:6]
+    #print(stock_num)
+    
+    return stock_num
+
+    

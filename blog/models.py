@@ -42,15 +42,16 @@ class NewsData(models.Model):
 class MoreData(models.Model):
     email = models.CharField(max_length=255, blank=False)
     content = models.CharField(max_length=255)
-    published_date = models.DateTimeField(blank = True, null=True)
+    published = models.CharField(max_length=255)
 
     def __str__(self):
         return self.email 
 
-    def __init__(self, email, content):
-        self.email = email
-        self.content = content
-
-    def register(self):
-        self.published_date = timezone.now()
-        self.save()
+    # def __init__(self, email, content, published):
+    #     self.email = email
+    #     self.content = content
+    #     self.published = published
+    #     self.save()
+    
+        
+        

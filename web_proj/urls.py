@@ -39,18 +39,18 @@ urlpatterns = [
     url(r'^post/moreinfo_out/', moreinfo_out, name="moreinfo_out"),
 
 
-    url(r'^post/wordcloud/sk_am', sk_am, name="sk_am"),
-    url(r'^post/wordcloud/sk_pm', sk_pm, name="sk_pm"),
-    url(r'^post/wordcloud/lg_am', lg_am, name="lg_am"),
-    url(r'^post/wordcloud/lg_pm', lg_am, name="lg_am"),
-    url(r'^post/wordcloud/kt_am', kt_am, name="kt_am"),
-    url(r'^post/wordcloud/kt_pm', kt_pm, name="kt_pm"),
-    url(r'^post/wordcloud/kakao_am', kakao_am, name="kakao_am"),
-    url(r'^post/wordcloud/kakao_pm', kakao_pm, name="kakao_pm"),
-    url(r'^post/wordcloud/samsung_am', samsung_am, name="samsung_am"),
-    url(r'^post/wordcloud/samsung_pm', samsung_pm, name="samsung_pm"),
-    url(r'^post/wordcloud/naver_am', naver_am, name="naver_am"),
-    url(r'^post/wordcloud/naver_pm', naver_pm, name="naver_pm"),
+    url(r'^post/wordcloud/sk_am/$', sk_am, name="sk_am"),
+    url(r'^post/wordcloud/sk_pm/$', sk_pm, name="sk_pm"),
+    url(r'^post/wordcloud/lg_am/$', lg_am, name="lg_am"),
+    url(r'^post/wordcloud/lg_pm/$', lg_pm, name="lg_pm"),
+    url(r'^post/wordcloud/kt_am/$', kt_am, name="kt_am"),
+    url(r'^post/wordcloud/kt_pm/$', kt_pm, name="kt_pm"),
+    url(r'^post/wordcloud/kakao_am/$', kakao_am, name="kakao_am"),
+    url(r'^post/wordcloud/kakao_pm/$', kakao_pm, name="kakao_pm"),
+    url(r'^post/wordcloud/samsung_am/$', samsung_am, name="samsung_am"),
+    url(r'^post/wordcloud/samsung_pm/$', samsung_pm, name="samsung_pm"),
+    url(r'^post/wordcloud/naver_am/$', naver_am, name="naver_am"),
+    url(r'^post/wordcloud/naver_pm/$', naver_pm, name="naver_pm"),
     # # url(r'^post/search', Mynews.as_view(), name='main'), # as_view()함수는 클래스의 인스턴스를 생성하고, 인스턴스의 dispatch()메소드를 호출
     
 ]

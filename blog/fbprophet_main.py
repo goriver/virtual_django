@@ -1,4 +1,4 @@
-import using_fbprophet 
+import blog.using_fbprophet 
 from fbprophet import Prophet
 import datetime
 import pandas as pd
@@ -17,13 +17,16 @@ from plotly.subplots import make_subplots
 
 # K,LG,KT
 # 카카오,삼성,네이버 로 fix
-if __name__ == "__main__":
+def get_json():
     corporation = ['034730', '003550','030200','035720','005930','035420']
     # fbpro = PredictByProphet.main()
     today = datetime.datetime.today() 
     date = today.strftime('%Y%m%d') 
     date = int(date)
     pd.set_option('mode.chained_assignment',  None)
+
+    chart_am = []
+    chart_pm = []
     # using_fbprophet.
     for index_code in corporation:
         temp, what_day = using_fbprophet.make_train_data(index_code, date)
@@ -52,8 +55,10 @@ if __name__ == "__main__":
         fig.add_trace(go.Scatter(x=am_pred['ds'],y=am_pred['yhat'],
                     mode='lines+markers', name='실제값'))
         fig.update_layout(title='<b>해당 요일 오전의 예측 주가</b>')
-        pio.write_html(fig, "Path_AM_{}.html".format(i))
 
+        am_data = fig.to_json()
+        pm_data = fig.to_json()
+        
         pm_pred = m.predict(pm)
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=pm_pred['ds'],y=pm_pred['yhat'],
@@ -61,10 +66,30 @@ if __name__ == "__main__":
         fig.update_layout(title='<b>해당 요일 오후의 예측 주가</b>')
 
 
+        chart_am.append({index_code : am_data})
+        chart_pm.append({index_code : pm_data})
 
-        
-        pio.write_html(fig, "Path_PM_{}.html".format(i))
+        # pio.write_html(fig, "./templates/blog/leejh/Path_PM_{}.html".format(index_code))
+        # pio.write_html(fig, "./templates/blog/leejh/Path_PM_{}.html".format(index_code))
 
+        # templates=""" {% extends 'blog/index.html' %} 
+        # {% block content %}
+        # <div class="container"> 
+        #     <div id = 'divPlotly'></div>
+        #     <script>
+        #         var plotly_data={}
+        #         Plotly.react('divPlotly', plotly_data.data, plotly_data.layout);
+        #     </script>
+        # </div>
+        # {% endblock %}
+        # """
+        # print(templates)
+        # # C:\Users\ka030\hello_django\env\Scripts\virtual_django\templates\blog\leejh\Path_AM_005930.html
+        # with open("./templates/blog/leejh/Path_AM_{}.html".format(index_code), 'w') as f:
+        #     f.write(templates.format(am_data))
+
+        # with open("./templates/blog/leejh/Path_PM_{}.html".format(index_code), 'w') as f:
+        #     f.write(templates.format(pm_data))
 
 
         print("해당 종목의 오전 추천 매수가는 ", am_pred['yhat'].min(), "입니다.")
@@ -72,6 +97,7 @@ if __name__ == "__main__":
 
         print("해당 종목의 오후 추천 매수가는 ", pm_pred['yhat'].min(), "입니다.")
         print("해당 종목의 오후 추천 매도가는 ", pm_pred['yhat'].max(), "입니다.")
+    return chart_am, chart_pm
 
 
 
